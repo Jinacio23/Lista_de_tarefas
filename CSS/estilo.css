@@ -1,0 +1,144 @@
+body{
+    background-image: url(../img/fundo.webp);
+}
+
+main{
+    max-width: 500px;
+    width: 100%;
+    margin: 10vh auto 0;
+}
+
+.menu{
+    background-color: #999;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 5px #555;
+}
+
+.taskList{
+    margin-bottom: -10px;
+}
+
+.title{
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+/* .checkedSide {
+   
+    
+} */
+.titleInput{
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.inputText{
+    width: 78%;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.btns{
+    display: inline;
+}
+
+.btns button{
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 50%;
+    border: none;
+    margin-left: 10px;
+}
+
+#lista{
+    list-style: none;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.li1, .li2{
+    background-color: #bbb;
+    padding: 8px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    position: relative;
+    min-height: 45px;
+    box-shadow: 2px 2px 5px #000;
+}
+
+
+.li1 h2{
+    display: inline-block;
+    max-width: 50%;
+    word-wrap: break-word;
+}
+
+.li1 button{
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 50%;
+    border: none;
+    margin-left: 389px;
+    position: absolute;
+    right: 14px;
+}
+.li2 button{
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 50%;
+    border: none;
+    position: absolute;
+    right: 14px;
+}
+
+button.editBtn{
+    right: 57px;
+    display: none;
+}
+
+.li1 hr{
+    border: none;
+    background-color: #000;
+    height: 1px;
+    margin: 5px 0;
+}
+
+.li1 p{
+    margin-bottom: 5px;
+    font-size: 18px;
+    word-wrap: break-word;
+}
+.li2 p{
+    margin-bottom: 5px;
+    font-size: 18px;
+    max-width: 90%;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+.li1.clear ,.li2.clear {
+    animation: sumir 1s;
+}
+
+@keyframes sumir {
+    from{
+        transform: translateX(0px);
+        opacity: 1;
+    }
+    to{
+        transform: translateX(80px);
+        opacity: 0;
+    }
+}

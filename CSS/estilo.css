@@ -25,6 +25,12 @@ main{
     margin-bottom: 5px;
     font-weight: 500;
 }
+.title::selection{
+    background-color: transparent;
+}
+.title:hover{
+    cursor:default;
+}
 /* .checkedSide {
    
     

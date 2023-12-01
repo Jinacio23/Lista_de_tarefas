@@ -5,6 +5,46 @@ const checkBox = document.querySelector('.checkedSide')
 const input = document.querySelector('.inputText')
 let titleInput;
 //let editButton;
+let armazenamento = [];
+
+//Adicionar um titulo a anotação ainda pendente
+checkBox.style.display = 'none'
+document.querySelector('.title').style.color = 'transparent'
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarLocalStorage()
+})
+
+// criar elementos da lista
+function criarElemento() {
+    const li = document.createElement('li')
+
+    //controle de saida
+    if (checkBox.checked) {
+        titleInput = document.querySelector('.titleInput').value
+
+        if (titleInput != "") {
+            li.setAttribute("class", "li1")
+            li.innerHTML = `<h2>${titleInput}</h2><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button><hr><p class="textNote">${input.value}</p>`
+        } else {
+            li.setAttribute("class", "li2")
+            li.innerHTML = `<p class="textNote">${input.value}</p><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button>`
+        }
+    } else {
+        li.setAttribute("class", "li2")
+        li.innerHTML = `<p class="textNote">${input.value}</p><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button>`
+    }
+
+    titleInput = document.querySelector('.titleInput')
+    //let titulo = `${titleInput.value}`
+    let texto = `${input.value}`
+
+    atualizarLocalStorage(texto)
+
+    lista.appendChild(li)
+    input.value = ''
+    //titleInput.value = ''
+}
 
 checkBox.onclick = () => {
     let title = document.querySelector('.title')
@@ -17,46 +57,10 @@ checkBox.onclick = () => {
 
 //tecla de atalho
 input.addEventListener('keypress', (e) => {
-    if(e.keyCode === 13) {
+    if (e.keyCode === 13) {
         criarElemento()
     }
 })
-
-// criar elementos da lista
-function criarElemento() {
-
-    const li = document.createElement('li')
-
-    //controle de saida
-    if (checkBox.checked == true) {
-        titleInput = document.querySelector('.titleInput').value
-
-        if (titleInput != "") {
-            
-            li.setAttribute("class", "li1")
-            li.innerHTML = `<h2>${titleInput}</h2><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button><hr><p class="textNote">${input.value}</p>`   
-            
-
-        } else {
-            li.setAttribute("class", "li2")
-            li.innerHTML = `<p class="textNote">${input.value}</p><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button>`
-        }
-        
-    } else {
-        li.setAttribute("class", "li2")
-        li.innerHTML = `<p class="textNote">${input.value}</p><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button>`
-    }
-
-    //atualizarStorage()
-
-    titleInput = document.querySelector('.titleInput')
-    
-    lista.appendChild(li)
-    input.value = ''
-    if (titleInput.value != "") {
-        titleInput.value = ''
-    } else {return}
-}
 
 //limpar um único elemento
 function excluir(limpar) {
@@ -67,7 +71,8 @@ function excluir(limpar) {
             item.classList.add('clear')
             setTimeout(() => {
                 item.remove()
-            }, 500) 
+            }, 500)
+            removerDoLocalStorage(item.innerText)
         }
     }
 }
@@ -81,25 +86,56 @@ clearAll.onclick = () => {
         setTimeout(() => {
             item.remove()
         }, 500)
+
+        removerDoLocalStorage(item)
     }
 }
 
-//editar elemento
-// editButton = document.querySelector('.editBtn')
-// editButton.onclick = () => {
-//     alert()
-// }  talvez id funcione
+//Atualizar localStorage
+function atualizarLocalStorage(p) {
+    let anotacao = {
+        texto: `${p}`
+    }
 
+    if (localStorage.itens) {
+        armazenamento = JSON.parse(localStorage.getItem('itens'))
+    }
+    armazenamento.push(anotacao)
 
-//atualizar local storage   ----> fazer tbm botão de tarefa concluida
-// let itensLista = lista.childNodes
+    localStorage.itens = JSON.stringify(armazenamento)
+}
 
-// let atualizarStorage = () => {
-//     localStorage.setItem('itemDaLista',JSON.stringify(itensLista))
-// }
+//Remover do localStorage
+function removerDoLocalStorage(item) {
+    armazenamento = JSON.parse(localStorage.getItem('itens'))
+    let indexItem;
 
-// let recuperarStorage = () => {
-//     lista.innerHTML = JSON.parse(localStorage.getItem('itemDaLista'))
-// }
+    armazenamento.forEach(objeto => {
 
-// console.log(localStorage.getItem('itemDaLista'))
+        if(objeto.texto.includes(item)){
+            indexItem = armazenamento.indexOf(objeto)
+        }else {
+            
+        }
+
+    });
+
+    armazenamento.splice(indexItem, 1)
+
+    localStorage.itens = JSON.stringify(armazenamento)
+}
+
+function carregarLocalStorage() {
+    if (localStorage.itens) {
+        armazenamento = JSON.parse(localStorage.getItem('itens'))
+    }
+
+    armazenamento.forEach(anotacao => {
+        const li = document.createElement('li')
+
+        li.setAttribute("class", "li2")
+        li.innerHTML = `<p class="textNote">${anotacao.texto}</p><button onclick="excluir(this)"><i class="bi bi-x"></i></button><button class="editBtn"><i class="bi bi-pencil-square"></i></button>`
+
+        lista.appendChild(li)
+    })
+}
